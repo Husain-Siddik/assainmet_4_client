@@ -7,6 +7,7 @@ export default function Home() {
 
 
       <div>
+        <h1>this is home </h1>
         <Button>Click me</Button>
       </div>
     </div>
