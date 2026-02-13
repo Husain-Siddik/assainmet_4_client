@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
 
-interface SignupProps {
+interface SignupAsStudentProps {
   heading?: string;
 
   buttonText?: string;
@@ -15,16 +15,16 @@ interface SignupProps {
   className?: string;
 }
 
-const Signup = ({
-  heading = "Signup",
+const SignupAsStudent = ({
+  heading = "Signup As A Student ",
 
   buttonText = "Create Account",
   signupText = "Already a user?",
   signupUrl = "/login",
   className,
-}: SignupProps) => {
+}: SignupAsStudentProps) => {
   return (
-    <section className={cn("h-screen bg-muted", className)}>
+    <section className={cn("h-1/2  bg-muted", className)}>
       <div className="flex h-full items-center justify-center">
         <div className="flex flex-col items-center gap-6 lg:justify-start">
           {/* Logo */}
@@ -94,4 +94,4 @@ const Signup = ({
   );
 };
 
-export { Signup };
+export { SignupAsStudent };
