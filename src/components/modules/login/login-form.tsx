@@ -26,6 +26,8 @@ import { useForm } from "@tanstack/react-form";
 
 
 
+//user  get from session
+import { useUser } from "@/providers/UserProvider";
 
 
 
@@ -85,6 +87,10 @@ export function LoginForm({
 
   })
 
+
+
+  //user get from session 
+  const { user } = useUser();
 
 
 
@@ -186,6 +192,8 @@ export function LoginForm({
           <Button className="w-full" form="login-form" type="submit">Login</Button>
         </CardFooter>
       </Card>
+
+
 
 
 
