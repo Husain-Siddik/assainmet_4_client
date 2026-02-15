@@ -1,97 +1,252 @@
-import { cn } from "@/lib/utils";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+"use client";
+
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import Link from "next/link";
 
-interface SignupAsStudentProps {
-  heading?: string;
+import { useForm } from '@tanstack/react-form'
+import { FieldDescription, FieldGroup, Field, FieldLabel, FieldError, } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import * as z from "zod"
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
-  buttonText?: string;
-  googleText?: string;
-  signupText?: string;
-  signupUrl?: string;
-  className?: string;
-}
 
-const SignupAsStudent = ({
-  heading = "Signup As A Student ",
 
-  buttonText = "Create Account",
-  signupText = "Already a user?",
-  signupUrl = "/login",
+const formSchema = z.object({
+
+  name: z.string().min(1, "this field is required "),
+  email: z.email(),
+  password: z.string().min(8, "minimum length is 8"),
+  image: z.url()
+
+
+})
+
+
+
+export function SignUpAsStudent({
   className,
-}: SignupAsStudentProps) => {
+  ...props
+}: React.ComponentProps<"div">) {
+
+
+  const form = useForm({
+
+    defaultValues: {
+      name: "",
+      email: "",
+      image: "",
+      password: "",
+
+    },
+    validators: {
+
+      onSubmit: formSchema,
+
+    },
+
+    onSubmit: async ({ value }) => {
+
+      const finalData = {
+        ...value,
+        role: "STUDENT",
+      };
+
+      const toastId = toast.loading("Creating Student Account")
+
+      try {
+        const { data, error } = await authClient.signUp.email(finalData)
+
+        if (error) {
+          toast.error(error.message, { id: toastId })
+          return
+        }
+        toast.success("Student Account Created Succesfully ", { id: toastId })
+
+      } catch (error) {
+
+        toast.error("Something went wrong , Pleace try again ", { id: toastId })
+      }
+
+
+    }
+
+  })
+
+
+
   return (
-    <section className={cn("h-1/2  bg-muted", className)}>
-      <div className="flex h-full items-center justify-center">
-        <div className="flex flex-col items-center gap-6 lg:justify-start">
-          {/* Logo */}
+
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <Card>
+        <CardHeader className="text-center">
+          <CardTitle className="text-xl">Create your account As A student</CardTitle>
+          <CardDescription>
+            Enter your info below to create your account
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
 
 
 
-          <div className="flex w-full max-w-sm min-w-sm flex-col items-center gap-y-4 rounded-md border border-muted bg-background px-6 py-8 shadow-md">
-            {heading && <h1 className="text-xl font-semibold">{heading}</h1>}
+          <form id="sign-up-form" onSubmit={(e) => {
+
+            e.preventDefault()
+            form.handleSubmit()
+
+          }}>
+
+            <FieldGroup>
+              {/* transtack from  */}
+
+              <form.Field name="name" children={(field) => {
+
+                // now i can control condition  here 
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+
+                return (
+
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                    <Input
+                      type="text"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => { field.handleChange(e.target.value) }}
+                    />
+
+                    {/* error here */}
+
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+
+                  </Field>
 
 
-            <div className="flex w-full flex-col gap-2">
-              <Label>Name</Label>
-              <Input
-                type="string"
-                placeholder="Enter Your Name"
-                className="text-sm"
-                required
-              />
-            </div>
+                )
 
-            <div className="flex w-full flex-col gap-2">
-              <Label>Email</Label>
-              <Input
-                type="email"
-                placeholder="Email"
-                className="text-sm"
-                required
-              />
-            </div>
+              }}>
+
+              </form.Field>
 
 
+              <form.Field name="email" children={(field) => {
 
-            <div className="flex w-full flex-col gap-2">
-              <Label>Password</Label>
-              <Input
-                type="password"
-                placeholder="Password"
-                className="text-sm"
-                required
-              />
-            </div>
-            <div className="flex w-full flex-col gap-2">
-              <Label>Confirm Password</Label>
-              <Input
-                type="password"
-                placeholder="Password"
-                className="text-sm"
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              {buttonText}
-            </Button>
-          </div>
-          <div className="flex justify-center gap-1 text-sm text-muted-foreground">
-            <p>{signupText}</p>
-            <Link
-              href={signupUrl}
-              className="font-medium text-primary hover:underline"
-            >
-              Login
-            </Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
+                // now i can control condition  here 
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
 
-export { SignupAsStudent };
+                return (
+
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <Input
+                      type="email"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => { field.handleChange(e.target.value) }}
+                    />
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+
+                  </Field>
+
+
+                )
+
+              }}>
+
+              </form.Field>
+
+              <form.Field name="image" children={(field) => {
+
+                // now i can control condition  here 
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+
+                return (
+
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>Img Url</FieldLabel>
+                    <Input
+                      type="text"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => { field.handleChange(e.target.value) }}
+                    />
+
+                    {/* error here */}
+
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+
+                  </Field>
+
+
+                )
+
+              }}>
+
+              </form.Field>
+
+
+
+              <form.Field name="password" children={(field) => {
+
+                // now i can control condition  here 
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid
+
+                return (
+
+                  <Field>
+                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <Input
+                      type="password"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onChange={(e) => { field.handleChange(e.target.value) }}
+                    />
+
+                    {isInvalid && <FieldError errors={field.state.meta.errors} />}
+                  </Field>
+
+
+                )
+
+              }}>
+
+              </form.Field>
+
+            </FieldGroup>
+
+          </form>
+
+        </CardContent>
+
+        <CardFooter className="">
+          <Button className="w-full" form="sign-up-form" type="submit">Submit</Button>
+        </CardFooter>
+
+      </Card>
+      <FieldDescription className="px-6 text-center">
+        By clicking continue, you agree to our <Link href="/signup">Terms of Service</Link>{" "}
+        and <Link href="/signup">Privacy Policy</Link>.
+      </FieldDescription>
+    </div>
+  )
+}

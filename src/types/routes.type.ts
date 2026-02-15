@@ -8,3 +8,8 @@ export interface Routes {
         url: string;
     }[]
 }
+
+// export interface UserRole {
+//     STUDENT: "STUDENT",
+//     TUTOR: "TUTOR"
+// }

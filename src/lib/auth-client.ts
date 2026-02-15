@@ -1,9 +1,11 @@
 import { createAuthClient } from "better-auth/react"
+
+
 export const authClient = createAuthClient({
     /** The base URL of the server (optional if you're using the same domain) */
-    // baseURL: "http://localhost:5000"
+    baseURL: "http://localhost:5000"
 
-    baseURL: "https://skill-bridge-server-sage.vercel.app/"
+    //baseURL: "https://skill-bridge-server-sage.vercel.app/"
 
     //
 })
