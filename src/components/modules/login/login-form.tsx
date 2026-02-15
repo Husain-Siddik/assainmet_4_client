@@ -22,12 +22,14 @@ import * as z from "zod"
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
+import { useEffect } from "react";
+import { getSession } from "@/actions/sessionAction";
 
 
 
 
 //user  get from session
-import { useUser } from "@/providers/UserProvider";
+
 
 
 
@@ -90,7 +92,14 @@ export function LoginForm({
 
 
   //user get from session 
-  const { user } = useUser();
+  useEffect(() => {
+    const fetchSession = async () => {
+      const data = await getSession();
+      console.log(data);
+    };
+
+    fetchSession();
+  }, []);
 
 
 
