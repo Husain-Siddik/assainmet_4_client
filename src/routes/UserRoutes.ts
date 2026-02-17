@@ -3,7 +3,7 @@ import { Routes } from "@/types";
 export const UserRoutes: Routes[] = [
 
     {
-        title: "Welcome to SkillBrige ",
+        title: " Welcome to SkillBrige ",
         items: [
             {
                 title: "student-dashboard",
@@ -12,8 +12,8 @@ export const UserRoutes: Routes[] = [
             },
 
             {
-                title: "Caching",
-                url: "#",
+                title: "Home",
+                url: "/",
             },
             {
                 title: "Styling",

@@ -1,4 +1,5 @@
-import { Button } from "@/components/ui/button";
+import { Hero } from "@/components/modules/home/Hero";
+
 
 
 
@@ -15,8 +16,24 @@ export default async function Home() {
 
 
       <div>
-        <h1>this is home </h1>
-        <Button>Click me</Button>
+        <Hero
+          className="px-3"
+          badge="Trusted by Learners & Educators"
+          heading="Learn Smarter. Teach Better. Grow Faster."
+          description="Skill Bridge helps students connect with top tutors for personalized learning experiences. Start your journey today."
+
+          buttons={{
+            primary: {
+              text: "Find a Tutor",
+              url: "/tutors",
+            },
+            secondary: {
+              text: "Become a Tutor",
+              url: "/signup",
+            },
+          }}
+
+        ></Hero>
       </div>
     </div>
   );

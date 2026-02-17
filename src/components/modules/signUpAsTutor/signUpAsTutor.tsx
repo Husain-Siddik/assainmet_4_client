@@ -121,12 +121,21 @@ export function SignUpAsTutor({
                         body: JSON.stringify(tutorData),
 
                     })
+
+
                     if (!result.ok) {
-                        toast.error("Failed to create tutor", { id: toastId })
+                        //  rollback 
+                        await fetch(`${ApiUrl}/api/user/me`, {
+                            method: "DELETE",
+                            credentials: "include",
+
+                        })
+
+                        toast.error("Tutor creation failed. User rolled back.", { id: toastId })
+                        return
                     }
 
-
-                    toast.success("tutor Account Creating Succesfully ", { id: toastId })
+                    toast.success("Tutor account created successfully", { id: toastId })
 
 
 
@@ -371,6 +380,13 @@ export function SignUpAsTutor({
 
             </Card>
             <FieldDescription className="px-6 text-center">
+                already have an account ? <Link href="/login">Log in </Link>
+            </FieldDescription>
+            <FieldDescription className="px-6 text-center">
+
+                already have an account
+
+
                 By clicking continue, you agree to our <Link href="/signup">Terms of Service</Link>{" "}
                 and <Link href="/signup">Privacy Policy</Link>.
             </FieldDescription>

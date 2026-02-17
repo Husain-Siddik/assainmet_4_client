@@ -244,6 +244,9 @@ export function SignUpAsStudent({
 
       </Card>
       <FieldDescription className="px-6 text-center">
+        already have an account ? <Link href="/login">Log in </Link>
+      </FieldDescription>
+      <FieldDescription className="px-6 text-center">
         By clicking continue, you agree to our <Link href="/signup">Terms of Service</Link>{" "}
         and <Link href="/signup">Privacy Policy</Link>.
       </FieldDescription>

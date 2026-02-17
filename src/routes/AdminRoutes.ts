@@ -8,12 +8,12 @@ export const AdminRoutes: Routes[] = [
         items: [
 
             {
-                title: "admin-dashboard",
+                title: "Admin-dashboard",
                 url: "/admin-dashboard",
             },
             {
-                title: "Caching",
-                url: "#",
+                title: "Home",
+                url: "/",
             },
             {
                 title: "Styling",

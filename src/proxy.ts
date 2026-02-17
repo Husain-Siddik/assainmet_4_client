@@ -19,9 +19,7 @@ export async function proxy(request: NextRequest) {
     if (session.data) {
         isAuthenticated = true;
 
-        // isAdmin = session.data?.user?.role === UserRole.ADMIN;
-        // isTutor = session.data?.user?.role === UserRole.TUTOR;
-        // isStudent = session.data?.user?.role === UserRole.STUDENT;
+
     }
 
 
@@ -29,6 +27,9 @@ export async function proxy(request: NextRequest) {
         return NextResponse.redirect(new URL("/login", request.url))
 
     }
+
+
+
 
     const role = session.data.user.role
 
@@ -48,6 +49,22 @@ export async function proxy(request: NextRequest) {
     }
 
 
+    if (pathName.startsWith('/dashboard')) {
+
+        if (role == UserRole.ADMIN) {
+            return NextResponse.redirect(new URL("/admin-dashboard", request.url));
+        }
+        if (role == UserRole.TUTOR) {
+            return NextResponse.redirect(new URL("/tutor-dashboard", request.url));
+        }
+
+        if (role == UserRole.STUDENT) {
+            return NextResponse.redirect(new URL("/student-dashboard", request.url));
+        }
+
+
+    }
+
 
 
 
@@ -60,6 +77,7 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
     matcher: [
+        "/dashboard",
         "/admin-dashboard/:path*",
         "/tutor-dashboard/:path*",
         "/student-dashboard/:path*",

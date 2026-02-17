@@ -3,7 +3,7 @@
 import { userService } from "@/services/user.service"
 
 
-export const getSession = async () => {
+export const getUserSession = async () => {
 
     return await userService.getSession()
 }

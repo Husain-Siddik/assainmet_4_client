@@ -8,12 +8,12 @@ export const TutorRoutes: Routes[] = [
         items: [
 
             {
-                title: "admin-dashboard",
-                url: "/admin-dashboard",
+                title: "Tutor-dashboard",
+                url: "/tutor-dashboard",
             },
             {
-                title: "Caching",
-                url: "#",
+                title: "Home",
+                url: "/",
             },
 
         ],

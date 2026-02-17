@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card"
 import {
   Field,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -23,14 +24,17 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import { useForm } from "@tanstack/react-form";
 import { useEffect } from "react";
-import { getSession } from "@/actions/sessionAction";
+
+import { getUserSession } from "@/actions/sessionAction";
+import { useRouter } from "next/navigation";
+
+
+
 
 
 
 
 //user  get from session
-
-
 
 
 
@@ -45,6 +49,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+
+  const router = useRouter();
 
 
   const form = useForm({
@@ -68,7 +74,7 @@ export function LoginForm({
 
 
 
-      const toastId = toast.loading("loging in  Account....")
+      const toastId = toast.loading("Logging in to your account...")
 
       try {
         const { data, error } = await authClient.signIn.email(finalData)
@@ -77,11 +83,15 @@ export function LoginForm({
           toast.error(error.message, { id: toastId })
           return
         }
-        toast.success("log in succesfully ", { id: toastId })
+
+        if (!error) {
+          toast.success("Logged in successfully", { id: toastId })
+          router.push("/dashboard")
+        }
 
       } catch (error) {
 
-        toast.error("Something went wrong , Pleace try again ", { id: toastId })
+        toast.error("Something went wrong. Please try again. ", { id: toastId })
       }
 
 
@@ -92,14 +102,8 @@ export function LoginForm({
 
 
   //user get from session 
-  useEffect(() => {
-    const fetchSession = async () => {
-      const data = await getSession();
-      console.log(data);
-    };
 
-    fetchSession();
-  }, []);
+
 
 
 
@@ -203,7 +207,9 @@ export function LoginForm({
       </Card>
 
 
-
+      <FieldDescription className="px-6 text-center">
+        Don't  have an account ? <Link href="/signup">Sign up </Link>
+      </FieldDescription>
 
 
     </div>

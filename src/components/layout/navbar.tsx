@@ -39,9 +39,6 @@ interface MenuItem {
 interface Navbar1Props {
   className?: string;
   logo?: {
-    url: string;
-    src: string;
-    alt: string;
     title: string;
     className?: string;
   };
@@ -60,10 +57,7 @@ interface Navbar1Props {
 
 const Navbar = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
-    alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "SkillBridge.com",
   },
   menu = [
     {
@@ -77,8 +71,8 @@ const Navbar = ({
       url: "/about",
     },
     {
-      title: "Blog",
-      url: "",
+      title: "Dashboard",
+      url: "/dashboard",
     },
   ],
   auth = {
@@ -94,7 +88,7 @@ const Navbar = ({
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
+            <div className="flex items-center gap-2">
               {/* <img
                 src={logo.src}
                 className="max-h-8 dark:invert"
@@ -103,7 +97,7 @@ const Navbar = ({
               <span className="text-lg font-semibold tracking-tighter">
                 {logo.title}
               </span>
-            </a>
+            </div>
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -130,13 +124,7 @@ const Navbar = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <a href={logo.url} className="flex items-center gap-2">
-              {/* <img
-                src={logo.src}
-                className="max-h-8 dark:invert"
-                alt={logo.alt}
-              /> */}
-            </a>
+
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -146,13 +134,9 @@ const Navbar = ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <a href={logo.url} className="flex items-center gap-2">
-                      {/* <img
-                        src={logo.src}
-                        className="max-h-8 dark:invert"
-                        alt={logo.alt}
-                      /> */}
-                    </a>
+                    <div>
+                      {logo.title}
+                    </div>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
