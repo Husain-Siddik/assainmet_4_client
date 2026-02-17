@@ -26,6 +26,8 @@ import {
 } from "@/components/ui/sheet";
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
+import { LogoutButton } from "../modules/logout/log-outButton";
+
 
 
 interface MenuItem {
@@ -53,6 +55,17 @@ interface Navbar1Props {
       url: string;
     };
   };
+
+  userdata?: {
+    name: string;
+    email: string;
+    emailVerified: boolean;
+    id: string;
+    image?: string;
+    role: string;
+
+
+  }
 }
 
 const Navbar = ({
@@ -70,21 +83,20 @@ const Navbar = ({
       title: "About",
       url: "/about",
     },
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-    },
+
   ],
   auth = {
     login: { title: "Login", url: "/login" },
     signup: { title: "Sign up", url: "/signup" },
   },
+  userdata,
   className,
 }: Navbar1Props) => {
   return (
     <section className={cn("py-4", className)}>
       <div className="container px-4 mx-auto">
         {/* Desktop Menu */}
+
         <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
@@ -110,13 +122,29 @@ const Navbar = ({
             {/* dark mode / Light mode */}
             <ModeToggle />
 
-            <Button asChild variant="outline" size="sm">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
+            {!userdata?.email && (
+              <>
 
-            <Button asChild size="sm">
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
+                <Button asChild variant="outline">
+                  <Link href={auth.login.url}>{auth.login.title}</Link>
+                </Button>
+
+                <Button asChild variant="outline">
+                  <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                </Button>
+              </>
+            )}
+
+            {userdata?.email &&
+
+              <>
+                <Button asChild variant="outline">
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <LogoutButton></LogoutButton>
+              </>
+            }
+
           </div>
         </nav>
 
@@ -132,12 +160,26 @@ const Navbar = ({
                 </Button>
               </SheetTrigger>
               <SheetContent className="overflow-y-auto">
-                <SheetHeader>
-                  <SheetTitle>
+                <SheetHeader className="" >
+
+                  <SheetTitle className="">
                     <div>
                       {logo.title}
                     </div>
                   </SheetTitle>
+
+
+
+                  <div className="">
+                    <div className="flex items-center justify-between rounded-lg border px-3 py-2 hover:bg-muted transition-colors">
+                      <span className="text-sm font-medium">
+                        Theme
+                      </span>
+
+                      <ModeToggle />
+                    </div>
+                  </div>
+
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
                   <Accordion
@@ -151,14 +193,36 @@ const Navbar = ({
                   <div className="flex flex-col gap-3">
 
                     {/* dark mode / Light mode */}
-                    <ModeToggle />
 
-                    <Button asChild variant="outline">
-                      <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild variant="outline" >
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
-                    </Button>
+
+                    {/* hide log in afer log in  */}
+
+                    {!userdata?.email && (
+                      <>
+
+                        <Button asChild variant="outline">
+                          <Link href={auth.login.url}>{auth.login.title}</Link>
+                        </Button>
+
+                        <Button asChild variant="outline">
+                          <Link href={auth.signup.url}>{auth.signup.title}</Link>
+                        </Button>
+                      </>
+                    )}
+
+                    {/* logout handel  */}
+                    {userdata?.email &&
+
+                      <>
+                        <Button asChild variant="outline">
+                          <Link href="/dashboard">Dashboard</Link>
+                        </Button>
+                        <LogoutButton></LogoutButton>
+                      </>
+                    }
+
+
+
                   </div>
                 </div>
               </SheetContent>

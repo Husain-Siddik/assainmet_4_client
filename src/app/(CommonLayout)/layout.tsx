@@ -1,16 +1,25 @@
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
+import { userService } from "@/services/user.service";
 
 
-function layout(
+async function layout(
 
     { children }: { children: React.ReactNode }
 
 ) {
+
+    const session = await userService.getSession()
+
+    const userdata = session.data?.user
+
+    console.log(userdata);
+
+
     return (
         <div>
 
-            <Navbar />
+            <Navbar userdata={userdata} />
 
             {children}
 

@@ -19,6 +19,9 @@ import { AdminRoutes } from "@/routes/AdminRoutes"
 import { TutorRoutes } from "@/routes/TutorRoutes"
 import { Routes } from "@/types"
 
+import { LogoutButton } from "../modules/logout/log-outButton"
+import { ModeToggle } from "./ModeToggle"
+
 
 // This is sample data.
 // const data = {
@@ -116,8 +119,20 @@ export function AppSidebar(
     <Sidebar {...props}>
 
       <SidebarContent>
+
+        <div className="flex items-center justify-between rounded-lg border px-3 py-2 hover:bg-muted transition-colors">
+          <span className="text-sm font-medium">
+            Theme
+          </span>
+
+          <ModeToggle />
+        </div>
+
+
+
         {/* We create a SidebarGroup for each parent. */}
         {routes.map((item) => (
+
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -130,11 +145,16 @@ export function AppSidebar(
                   </SidebarMenuItem>
                 ))}
               </SidebarMenu>
+
+
+
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
       </SidebarContent>
       <SidebarRail />
+      {/* log Out  */}
+      <LogoutButton />
     </Sidebar>
   )
 }
