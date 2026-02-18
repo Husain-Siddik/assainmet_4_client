@@ -1,10 +1,9 @@
-import { TutorProfileCard } from "@/components/modules/tutor/tutorProfile/tutorProfileCard";
+import { UpdateTutorForm } from "@/components/modules/tutor/updateTutorProfile/updateTutorFrom";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { tutorService } from "@/services/tutor.service";
 
 
-
-const TutorProfile = async () => {
+const TutorProfileUpdatePage = async () => {
 
     const { data, error } = await tutorService.getTutorByUser();
 
@@ -23,30 +22,20 @@ const TutorProfile = async () => {
         );
     }
 
-
     const tutorProps = {
         id: data.data.id,
+        bio: data.data.bio,
+        pricePerHr: data.data.pricePerHr,
         userId: data.data.userId,
 
     };
 
-
-
-
-
-
-
     return (
-        <div className="w-full ">
+        <div className=" flex justify-center py-10">
 
-            <div className="flex justify-center py-10 ">
-                <TutorProfileCard {...tutorProps}
-
-                />
-            </div>
-
+            <UpdateTutorForm tutor={tutorProps} />
         </div>
     );
 };
 
-export default TutorProfile;
+export default TutorProfileUpdatePage;

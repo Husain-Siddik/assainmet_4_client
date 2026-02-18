@@ -17,6 +17,10 @@ export const TutorRoutes: Routes[] = [
                 url: "/tutor-dashboard/tutor-profile",
             },
             {
+                title: "Update Profile",
+                url: "/tutor-dashboard/update-profile",
+            },
+            {
                 title: "Category Management",
                 url: "/tutor-dashboard/category"
             }
